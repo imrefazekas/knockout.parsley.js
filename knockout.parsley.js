@@ -51,36 +51,28 @@
 				}
 			} );
 		}
-		ko.bindingHandlers.validValue = {
-			init: function(element, valueAccessor, bindingContext) {
-				ko.bindingHandlers.value.init.apply( ko.bindingHandlers.value, arguments );
-				var accessor = valueAccessor();
-				var jElement = $(element);
-				if(accessor.rules)
-					addParsleyDataSttributes( jElement, accessor, bindingContext );
-				jElement.change(function() {
-					jElement.parsley().validate();
-				});
-			},
-			update: function(element, valueAccessor, allBindings) {
-				ko.bindingHandlers.value.update.apply( ko.bindingHandlers.value, arguments );
-			}
-		};
-		ko.bindingHandlers.validChecked = {
-			init: function(element, valueAccessor, bindingContext) {
-				ko.bindingHandlers.checked.init.apply( ko.bindingHandlers.checked, arguments );
-				var accessor = valueAccessor();
-				var jElement = $(element);
-				if(accessor.rules)
-					addParsleyDataSttributes( jElement, accessor, bindingContext );
-				$(element).change(function() {
-					jElement.parsley().validate();
-				});
-			},
-			update: function(element, valueAccessor, allBindings) {
-				ko.bindingHandlers.checked.update.apply( ko.bindingHandlers.checked, arguments );
-			}
-		};
+
+		function generateValidBindingHandler(originalName){
+			var validName = 'valid_' + originalName;
+			ko.bindingHandlers[ validName ] = {
+				init: function(element, valueAccessor, bindingContext) {
+					ko.bindingHandlers[originalName].init.apply( ko.bindingHandlers[originalName], arguments );
+					var accessor = valueAccessor();
+					var jElement = $(element);
+					if(accessor.rules)
+						addParsleyDataSttributes( jElement, accessor, bindingContext );
+					jElement.change(function() {
+						jElement.parsley().validate();
+					});
+				},
+				update: function(element, valueAccessor, allBindings) {
+					ko.bindingHandlers[originalName].update.apply( ko.bindingHandlers[originalName], arguments );
+				}
+			};
+		}
+		each( [ 'textInput', 'value', 'checked' ], function(name){
+			generateValidBindingHandler( name );
+		});
 
 		ko.extenders.validatable = function (observable, enable) {
 			if(enable && !observable.rules) {
