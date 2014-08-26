@@ -67,7 +67,7 @@
 			}
 		};
 		ko.bindingHandlers.validChecked = {
-			init: function(element, valueAccessor) {
+			init: function(element, valueAccessor, bindingContext) {
 				ko.bindingHandlers.checked.init.apply( ko.bindingHandlers.checked, arguments );
 				var accessor = valueAccessor();
 				var jElement = $(element);
