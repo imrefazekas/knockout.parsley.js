@@ -52,11 +52,12 @@
 			} );
 		}
 
-		function generateValidBindingHandler(originalName){
-			var validName = 'valid_' + originalName;
+		function generateValidBindingHandler( name ){
+			var validName = 'valid_' + name;
 			ko.bindingHandlers[ validName ] = {
 				init: function(element, valueAccessor, bindingContext) {
-					ko.bindingHandlers[originalName].init.apply( ko.bindingHandlers[originalName], arguments );
+					if( ko.bindingHandlers[name].init )
+						ko.bindingHandlers[name].init.apply( ko.bindingHandlers[name], arguments );
 					var accessor = valueAccessor();
 					var jElement = $(element);
 					if(accessor.rules)
@@ -66,7 +67,8 @@
 					});
 				},
 				update: function(element, valueAccessor, allBindings) {
-					ko.bindingHandlers[originalName].update.apply( ko.bindingHandlers[originalName], arguments );
+					if( ko.bindingHandlers[name].update )
+						ko.bindingHandlers[name].update.apply( ko.bindingHandlers[name], arguments );
 				}
 			};
 		}
