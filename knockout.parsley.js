@@ -24,6 +24,9 @@
 		var isArray = Array.isArray || function(obj) {
 			return toString.call(obj) === '[object Array]';
 		};
+		var isFunction = function (obj) {
+			return toString.call(obj) === "[object " + Function + "]";
+		};
 		var nativeForEach = Array.prototype.forEach;
 		var breaker = {};
 		var each = function(obj, iterator, context) {
@@ -45,7 +48,7 @@
 			each( accessor.rules(), function(rule, key, list) {
 				var parsleyAttrName = "data-parsley-" + rule.rule;
 				var attr = jElement.prop(parsleyAttrName);
-				if ( typeof attr === 'undefined' || attr === false ) {
+				if ( (typeof attr === 'undefined' || attr === false) && !isFunction(rule.params) ) {
 					jElement.prop( parsleyAttrName, rule.params );
 					jElement.attr( parsleyAttrName, rule.params );
 				}
