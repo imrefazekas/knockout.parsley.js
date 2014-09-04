@@ -46,11 +46,15 @@
 
 		function addParsleyDataSttributes(jElement, accessor, bindingContext){
 			each( accessor.rules(), function(rule, key, list) {
-				var parsleyAttrName = "data-parsley-" + rule.rule;
+				var functionRule = rule.rule === 'fn';
+				var name = functionRule ? (jElement.attr('id')||jElement.attr('name')).replace(/\s+/g, '') : rule.rule;
+				var parsleyAttrName = "data-parsley-" + name;
+				if( functionRule )
+					window.ParsleyValidator.addValidator( name, rule.params, 32);
 				var attr = jElement.prop(parsleyAttrName);
-				if ( (typeof attr === 'undefined' || attr === false) && !isFunction(rule.params) ) {
-					jElement.prop( parsleyAttrName, rule.params );
-					jElement.attr( parsleyAttrName, rule.params );
+				if ( typeof attr === 'undefined' || attr === false ) {
+					jElement.prop( parsleyAttrName, functionRule ? 'true' : rule.params );
+					jElement.attr( parsleyAttrName, functionRule ? 'true' : rule.params );
 				}
 			} );
 		}
@@ -102,7 +106,7 @@
 			}
 		}
 
-		each( ['required', 'minlength', 'maxlength', 'length', 'min', 'max', 'element', 'range',  'pattern', 'equalto', 'mincheck', 'maxcheck', 'check', 'type'], function(value, key, list) {
+		each( ['required', 'minlength', 'maxlength', 'length', 'min', 'max', 'element', 'range',  'pattern', 'equalto', 'mincheck', 'maxcheck', 'check', 'type', 'fn'], function(value, key, list) {
 			addExtender(value);
 		});
 
