@@ -112,7 +112,7 @@
 
 		var API = (function(){
 			return {
-				init: function( _forms ) {
+				initParsleyForms: function( _forms ) {
 					if( isArray(_forms) )
 						each( _forms, function(form, index, list){
 							forms.push( form );

@@ -1,6 +1,6 @@
 {
   "name": "knockout.parsley.js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Knockout.js plugin for object mapping including validation.",
   "homepage": "https://github.com/imrefazekas/knockout.parsley.js",
   "dependencies": {
@@ -42,5 +42,5 @@
     "gulp-rename": "latest",
     "gulp-uglify": "latest"
   },
-  "_id": "knockout.parsley.js@0.3.0"
+  "_id": "knockout.parsley.js@0.3.1"
 }
