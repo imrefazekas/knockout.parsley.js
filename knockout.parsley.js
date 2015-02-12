@@ -48,7 +48,7 @@
 			each( accessor.rules(), function(rule, key, list) {
 				var functionRule = rule.rule === 'fn';
 				var name = functionRule ? (jElement.attr('id')||jElement.attr('name')).replace(/\s+/g, '') : rule.rule;
-				var parsleyAttrName = "data-parsley-" + name;
+				var parsleyAttrName = (name === 'message') ? "data-parsley-error-" + name : "data-parsley-" + name;
 				if( functionRule )
 					window.ParsleyValidator.addValidator( name, rule.params, 32);
 				var attr = jElement.prop(parsleyAttrName);
@@ -106,7 +106,7 @@
 			}
 		}
 
-		each( ['required', 'minlength', 'maxlength', 'length', 'min', 'max', 'element', 'range',  'pattern', 'equalto', 'mincheck', 'maxcheck', 'check', 'type', 'fn'], function(value, key, list) {
+		each( ['required', 'minlength', 'maxlength', 'length', 'min', 'max', 'element', 'range',  'pattern', 'equalto', 'mincheck', 'maxcheck', 'check', 'type', 'fn', 'message'], function(value, key, list) {
 			addExtender(value);
 		});
 
